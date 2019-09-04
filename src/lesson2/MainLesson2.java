@@ -1,5 +1,7 @@
 package lesson2;
 
+import lesson4.linkedList.SimpleLinkedList;
+
 import java.util.Arrays;
 
 public class MainLesson2 {
@@ -7,6 +9,16 @@ public class MainLesson2 {
     private static final int SIZE = 100_000;
 
     public static void main(String[] args) {
+
+        SimpleLinkedList<Integer> simpleLinkedList = new SimpleLinkedList<>();
+        simpleLinkedList.insertFirst(1);
+        simpleLinkedList.insertFirst(2);
+        simpleLinkedList.insertFirst(3);
+        simpleLinkedList.insertFirst(4);
+
+        for (Integer integer : simpleLinkedList) {
+            System.out.println(integer);
+        }
 
         Array<Integer> array = new ArrayImpl<>(SIZE);
 
@@ -40,6 +52,5 @@ public class MainLesson2 {
         System.out.println("sortBubble() " + estimatedTime);
         System.out.println("sortInsert() " + estimatedTime2);
         System.out.println("sortSelect() " + estimatedTime3);
-
     }
 }
