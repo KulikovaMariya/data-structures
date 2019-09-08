@@ -103,7 +103,6 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
             return nextEntry != null;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public E next() {
             if (!hasNext()) {
