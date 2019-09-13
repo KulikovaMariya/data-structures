@@ -25,6 +25,8 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
             return true;
         } else if (nodeAndParent.current != null) {
             return false;
+        } else if (height(this.root) >= 4) {
+            return false;
         } else if (previous.shouldBeLeft(value)) {
             previous.setLeftChild(node);
         } else {
@@ -182,8 +184,8 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
                         (Math.abs(height(node.getLeftChild()) - height(node.getRightChild())) <= 1);
     }
 
-    private int height(Node node) {
-        return node == null ? 0 : Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+    public int height(Node node) {
+        return node == null ? 0 : 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
     }
 
     @Override
@@ -273,5 +275,9 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
         public boolean isEmpty() {
             return current == null && parent == null;
         }
+    }
+
+    public Node<E> getRoot() {
+        return root;
     }
 }
