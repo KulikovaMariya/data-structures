@@ -34,8 +34,7 @@ public class Graph {
         int startIndex = indexOf(startLabel);
         int finishIndex = indexOf(finishLabel);
         if (startIndex == -1 || finishIndex == -1) {
-            throw new IllegalArgumentException(String.format("Invalid label for vertexes: %s; $s", startLabel, finishLabel));
-
+            throw new IllegalArgumentException(String.format("Invalid label for vertexes: %s; %s", startLabel, finishLabel));
         }
         adjMat[startIndex][finishIndex] = true;
         adjMat[finishIndex][startIndex] = true;
@@ -43,7 +42,7 @@ public class Graph {
 
     private int indexOf(String label) {
         for (int i = 0; i < vertexList.size(); i++) {
-            if (vertexList.get(i).equals(label)) {
+            if (vertexList.get(i).getLabel().equals(label)) {
                 return i;
             }
         }
@@ -104,11 +103,48 @@ public class Graph {
         }
     }
 
+    public void findShortWay(String startLabel, String finishLabel) {
+        int startIndex = indexOf(startLabel);
+        if (startIndex == -1) {
+            throw new IllegalArgumentException("Invalid startLabel: " + startLabel);
+        }
+
+        Queue<Vertex> queue = new LinkedList<>();
+
+        Vertex vertex = vertexList.get(startIndex);
+        visitVertex(queue, vertex);
+
+        while(!queue.isEmpty()) {
+            vertex = getNearUnvisitedVertex(queue.peek());
+
+            if (vertex != null) {
+                visitVertex(queue, vertex);
+                vertex.setPrevious(queue.peek());
+                if (vertex.getLabel().equals(finishLabel)) {
+                    printShortWay(vertex);
+                    return;
+                }
+            } else {
+                queue.remove();
+            }
+        }
+    }
+
+    private void printShortWay(Vertex vertex) {
+        System.out.println("Short way:");
+        String result = vertex.getLabel();
+        while (vertex.getPrevious() != null) {
+            result = vertex.getPrevious().getLabel() + " - " + result;
+            vertex = vertex.getPrevious();
+        }
+        System.out.println(result);
+    }
+
     private Vertex getNearUnvisitedVertex(Vertex peek) {
         int peekIndex = vertexList.indexOf(peek);
         for (int i = 0; i < size; i++) {
             if (adjMat[peekIndex][i] && !vertexList.get(i).isVisited()) {
-                vertexList.get(i);
+                return vertexList.get(i);
             }
         }
         return null;
